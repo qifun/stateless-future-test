@@ -1,0 +1,6 @@
+[submodule "yang-bo-future"]
+	path = yang-bo-future
+	url = git@github.com:Atry/yang-bo-future.git
+[submodule "immutable-future"]
+	path = immutable-future
+	url = git@github.com:Atry/immutable-future.git

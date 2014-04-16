@@ -1,6 +1,12 @@
 classes
-target
+target/
 .idea
 .idea_modules
 *.icode
 project/local.sbt
+.metadata
+.project
+.classpath
+.cache
+*.swp
+.settings/
