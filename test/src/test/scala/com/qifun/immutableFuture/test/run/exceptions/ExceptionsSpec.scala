@@ -76,6 +76,8 @@ class ExceptionsSpec {
       }
     }
     Await.result(fut, 2.seconds) mustBe "recover"
+    unreachableLog mustBe 0
+    finallyLog mustBe 1
   }
 
   @Test
@@ -135,6 +137,7 @@ class ExceptionsSpec {
       unreachableLog += 1
     }
     intercept[MyException1] { Await.result(fut, 2.seconds) }
+    unreachableLog mustBe 0
   }
 
   @Test
