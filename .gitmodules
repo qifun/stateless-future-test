@@ -1,3 +1,3 @@
-[submodule "immutable-future"]
-	path = immutable-future
-	url = https://github.com/Atry/immutable-future.git 
+[submodule "stateless-future"]
+	path = stateless-future
+	url = https://github.com/Atry/stateless-future.git

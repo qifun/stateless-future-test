@@ -1,8 +1,8 @@
-val immutableFuture = Project("immutable-future", file("immutable-future"))
+val statelessFuture = Project("stateless-future", file("stateless-future"))
 
-val adapter = Project("adapter", file("adapter")).dependsOn(immutableFuture)
+val adapter = Project("adapter", file("adapter")).dependsOn(statelessFuture)
 
-val test = Project("test", file("test")).dependsOn(immutableFuture, adapter)
+val test = Project("test", file("test")).dependsOn(statelessFuture, adapter)
 
 val root = Project("root", file(".")).aggregate(test)
 

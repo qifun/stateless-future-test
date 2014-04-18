@@ -2,7 +2,7 @@ organization := "com.qifun.immutable-future"
 
 name := "test"
 
-version := "0.1-SNAPSHOT"
+version := "0.1.2-SNAPSHOT"
 
 libraryDependencies <+= version { "com.qifun" %% "immutable-future" % _ }
 
