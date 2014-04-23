@@ -11,7 +11,7 @@ import language.{reflectiveCalls, postfixOps}
 import scala.concurrent._
 import com.qifun.statelessFuture.test.Async.future
 import com.qifun.statelessFuture.Future
-import com.qifun.statelessFuture.Future.ToConcurrentFuture
+import com.qifun.statelessFuture.Future.toConcurrentFuture
 import scala.concurrent.duration._
 import com.qifun.statelessFuture.test.Async._
 import org.junit.{Assert, Test}

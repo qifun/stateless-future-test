@@ -1,10 +1,10 @@
-organization := "com.qifun.immutable-future"
+organization := "com.qifun.stateless-future"
 
 name := "test"
 
 version := "0.1.2-SNAPSHOT"
 
-libraryDependencies <+= version { "com.qifun" %% "immutable-future" % _ }
+libraryDependencies <+= version { "com.qifun" %% "stateless-future" % _ }
 
 libraryDependencies <++= (scalaVersion) {
   sv => Seq(
@@ -26,9 +26,9 @@ parallelExecution in Global := false
 
 scalacOptions in compile ++= Seq("-optimize", "-deprecation", "-unchecked", "-Xlint", "-feature")
 
-description := "Test cases for immutable-future."
+description := "Test cases for statelesss-future."
 
-homepage := Some(url("http://github.com/Atry/immutable-future-test"))
+homepage := Some(url("http://github.com/Atry/statelesss-future-test"))
 
 startYear := Some(2014)
 
@@ -37,9 +37,9 @@ licenses +=("Scala license", url("https://github.com/scala/async/blob/master/LIC
 pomIncludeRepository := { _ => false }
 
 scmInfo := Some(ScmInfo(
-  url("https://github.com/Atry/immutable-future-test"),
-  "scm:git:git://github.com/Atry/immutable-future-test.git",
-  Some("scm:git:git@github.com:Atry/immutable-future-test.git")))
+  url("https://github.com/Atry/statelesss-future-test"),
+  "scm:git:git://github.com/Atry/statelesss-future-test.git",
+  Some("scm:git:git@github.com:Atry/statelesss-future-test.git")))
 
 pomExtra :=
   <developers>

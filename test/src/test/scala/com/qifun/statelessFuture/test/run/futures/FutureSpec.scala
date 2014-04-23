@@ -11,7 +11,7 @@ import scala.language.postfixOps
 
 import scala.concurrent._
 import com.qifun.statelessFuture.Future
-import com.qifun.statelessFuture.Future.ToConcurrentFuture
+import com.qifun.statelessFuture.Future.toConcurrentFuture
 import scala.concurrent.duration._
 import scala.concurrent.duration.Duration.Inf
 import scala.collection._
@@ -63,14 +63,14 @@ class FutureSpec {
       s.toUpperCase
     }
 
-    Future ToConcurrentFuture f2 foreach { _ => throw new ThrowableTest("dispatcher foreach") }
+    Future toConcurrentFuture f2 foreach { _ => throw new ThrowableTest("dispatcher foreach") }
     f2 onSuccess { case _ => throw new ThrowableTest("dispatcher receive") }
 
     latch.open()
 
     Await.result(f2, defaultTimeout) mustBe ("success")
 
-    Future ToConcurrentFuture f2 foreach { _ => throw new ThrowableTest("current thread foreach") }
+    Future toConcurrentFuture f2 foreach { _ => throw new ThrowableTest("current thread foreach") }
     f2 onSuccess { case _ => throw new ThrowableTest("current thread receive") }
 
     Await.result(f3, defaultTimeout) mustBe ("SUCCESS")
@@ -232,14 +232,14 @@ class FutureSpec {
   @Test def `firstCompletedOf`() {
     def futures = Vector.fill[scala.concurrent.Future[Int]](10) {
       Promise[Int]().future
-    } :+ (Future ToConcurrentFuture future[Int](5))
+    } :+ (Future toConcurrentFuture future[Int](5))
 
     Await.result(scala.concurrent.Future.firstCompletedOf(futures), defaultTimeout) mustBe (5)
     Await.result(scala.concurrent.Future.firstCompletedOf(futures.iterator), defaultTimeout) mustBe (5)
   }
 
   @Test def `find`() {
-    val futures = for (i <- 1 to 10) yield Future ToConcurrentFuture future {
+    val futures = for (i <- 1 to 10) yield Future toConcurrentFuture future {
       i
     }
 
@@ -280,7 +280,7 @@ class FutureSpec {
     }
 
     val futures = (0 to 9) map {
-      idx => Future ToConcurrentFuture async(idx, idx * 20)
+      idx => Future toConcurrentFuture async(idx, idx * 20)
     }
     val folded = scala.concurrent.Future.fold(futures)(0)(_ + _)
     Await.result(folded, timeout) mustBe (45)
@@ -301,7 +301,7 @@ class FutureSpec {
     def futures = (0 to 9) map {
       idx => async(idx, idx * 20)
     }
-    val folded = futures.foldLeft(future(0)) {
+    val folded = futures.foldLeft[Future[Int]](future(0)) {
       case (fr, fa) => for (r <- fr; a <- fa) yield (r + a)
     }
     Await.result(folded, timeout) mustBe (45)
@@ -315,7 +315,7 @@ class FutureSpec {
       add
     }
     def futures = (0 to 9) map {
-      idx => Future ToConcurrentFuture async(idx, idx * 10)
+      idx => Future toConcurrentFuture async(idx, idx * 10)
     }
     val folded = scala.concurrent.Future.fold(futures)(0)(_ + _)
     intercept[IllegalArgumentException] {
@@ -326,7 +326,7 @@ class FutureSpec {
   @Test def `fold mutable zeroes safely`() {
     import scala.collection.mutable.ArrayBuffer
     def test(testNumber: Int) {
-      val fs = (0 to 1000) map (i => Future ToConcurrentFuture future(i))
+      val fs = (0 to 1000) map (i => Future toConcurrentFuture future(i))
       val f = scala.concurrent.Future.fold(fs)(ArrayBuffer.empty[AnyRef]) {
         case (l, i) if i % 2 == 0 => l += i.asInstanceOf[AnyRef]
         case (l, _) => l
@@ -345,7 +345,7 @@ class FutureSpec {
   }
 
   @Test def `shouldReduceResults`() {
-    def async(idx: Int) = Future ToConcurrentFuture future {
+    def async(idx: Int) = Future toConcurrentFuture future {
       Thread.sleep(idx * 20)
       idx
     }
@@ -368,7 +368,7 @@ class FutureSpec {
     }
     val timeout = 10000 millis
     def futures = (1 to 10) map {
-      idx => Future ToConcurrentFuture async(idx, idx * 10)
+      idx => Future toConcurrentFuture async(idx, idx * 10)
     }
     val failed = scala.concurrent.Future.reduce(futures)(_ + _)
     intercept[IllegalArgumentException] {
@@ -392,7 +392,7 @@ class FutureSpec {
       }
     }
 
-    val oddFutures = List.fill(100)(Future ToConcurrentFuture future { counter.incAndGet() }).iterator
+    val oddFutures = List.fill(100)(Future toConcurrentFuture future { counter.incAndGet() }).iterator
     val traversed = scala.concurrent.Future.sequence[Int, Iterator](oddFutures)
     Await.result(traversed, defaultTimeout).sum mustBe (10000)
 
@@ -438,12 +438,12 @@ class FutureSpec {
   @Test def `run callbacks async`() {
     val latch = Vector.fill(10)(new TestLatch)
 
-    val f1 = Future ToConcurrentFuture future {
+    val f1 = Future toConcurrentFuture future {
       latch(0).open()
       Await.ready(latch(1), TestLatch.DefaultTimeout)
       "Hello"
     }
-    val f2 = Future ToConcurrentFuture async {
+    val f2 = Future toConcurrentFuture async {
       val s = await(f1)
       latch(2).open()
       Await.ready(latch(3), TestLatch.DefaultTimeout)
@@ -462,7 +462,7 @@ class FutureSpec {
     f1.isCompleted mustBe (true)
     f2.isCompleted mustBe (false)
 
-    val f3 = Future ToConcurrentFuture async {
+    val f3 = Future toConcurrentFuture async {
       val s = await(f1)
       latch(5).open()
       Await.ready(latch(6), TestLatch.DefaultTimeout)
@@ -481,7 +481,7 @@ class FutureSpec {
     f3.isCompleted mustBe (true)
 
     val p1 = Promise[String]()
-    val f4 = Future ToConcurrentFuture async {
+    val f4 = Future toConcurrentFuture async {
       val s = await(p1.future)
       latch(7).open()
       Await.ready(latch(8), TestLatch.DefaultTimeout)
@@ -506,7 +506,7 @@ class FutureSpec {
   }
 
   @Test def `should not deadlock with nested await (ticket 1313)`() {
-    val simple = Future ToConcurrentFuture async {
+    val simple = Future toConcurrentFuture async {
       await { future {} }
       val unit = future(())
       val umap = unit map { _ => () }
@@ -515,13 +515,13 @@ class FutureSpec {
     Await.ready(simple, Inf).isCompleted mustBe (true)
 
     val l1, l2 = new TestLatch
-    val complex = Future ToConcurrentFuture async {
+    val complex = Future toConcurrentFuture async {
       await { future {} }
       blocking {
         val nested = future(())
-        for (_ <- Future ToConcurrentFuture nested) l1.open()
+        for (_ <- Future toConcurrentFuture nested) l1.open()
         Await.ready(l1, TestLatch.DefaultTimeout) // make sure nested is completed
-        for (_ <- Future ToConcurrentFuture nested) l2.open()
+        for (_ <- Future toConcurrentFuture nested) l2.open()
         Await.ready(l2, TestLatch.DefaultTimeout)
       }
     }
@@ -530,7 +530,7 @@ class FutureSpec {
 
   @Test def `should not throw when Await.ready`() {
     val expected = try Success(5 / 0) catch { case a: ArithmeticException => Failure(a) }
-    val f = Future ToConcurrentFuture async { await(future(5)) / 0 }
+    val f = Future toConcurrentFuture async { await(future(5)) / 0 }
     Await.ready(f, defaultTimeout).value.get.toString mustBe expected.toString
   }
 

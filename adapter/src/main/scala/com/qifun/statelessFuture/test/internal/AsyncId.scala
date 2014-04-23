@@ -11,7 +11,7 @@ object AsyncId {
     import c.universe._
     import c.mirror._
     import compat._
-    val future = Future.Detail.applyMacro(c)(a)
+    val future = ANormalForm.applyMacro(c)(a)
     reify {
       future.splice.await
     }
@@ -42,7 +42,7 @@ object AsyncId {
     import c.mirror._
     import compat._
 
-    val future = Future.Detail.applyMacro(c)(a)
+    val future = ANormalForm.applyMacro(c)(a)
 
     reify {
       _root_.com.qifun.statelessFuture.test.internal.AsyncId.blockingWait(future.splice)
