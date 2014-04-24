@@ -11,12 +11,12 @@ import language.{reflectiveCalls, postfixOps}
 import scala.concurrent._
 import com.qifun.statelessFuture.test.Async.future
 import com.qifun.statelessFuture.Future
-import com.qifun.statelessFuture.Future.toConcurrentFuture
 import scala.concurrent.duration._
 import com.qifun.statelessFuture.test.Async._
 import org.junit.{Assert, Test}
 import com.qifun.statelessFuture.test.internal.AsyncId
 import ExecutionContext.Implicits.global
+import AutoStart._
 
 object ToughTypeObject {
 

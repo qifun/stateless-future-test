@@ -13,7 +13,7 @@ import scala.concurrent.{ ExecutionContext, Await }
 import ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.reflect.ClassTag
-
+import AutoStart._
 import org.junit.Test
 
 class ExceptionsSpec {

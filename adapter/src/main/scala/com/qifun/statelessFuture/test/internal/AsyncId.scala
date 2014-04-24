@@ -11,7 +11,7 @@ object AsyncId {
     import c.universe._
     import c.mirror._
     import compat._
-    val future = ANormalForm.applyMacro(c)(a)
+    val future = ANormalForm.applyMacro(c)(a): c.Expr[Future.Stateless[Nothing]]
     reify {
       future.splice.await
     }
