@@ -5,11 +5,11 @@ import scala.reflect.macros.Context
 
 object Async {
 
-  def asyncMacro(c: Context)(a: c.Expr[Any]): c.Expr[StatelessFuture[Nothing]] = {
+  def asyncMacro(c: Context)(a: c.Expr[Any]): c.Expr[Future.Stateless[Nothing]] = {
     ANormalForm.applyMacro(c)(a)
   }
 
-  def futureMacro(c: Context)(a: c.Expr[Any]): c.Expr[StatelessFuture[Nothing]] = {
+  def futureMacro(c: Context)(a: c.Expr[Any]): c.Expr[Future.Stateless[Nothing]] = {
     ANormalForm.applyMacro(c)(a)
   }
 
@@ -18,7 +18,7 @@ object Async {
   }
 
   import scala.language.experimental.macros
-  def async[A](a: A): StatelessFuture[A] = macro asyncMacro
-  def future[A](a: A): StatelessFuture[A] = macro futureMacro
+  def async[A](a: A): Future.Stateless[A] = macro asyncMacro
+  def future[A](a: A): Future.Stateless[A] = macro futureMacro
   def await[A](a: Future[A]): A = macro awaitMacro
 }

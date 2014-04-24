@@ -14,6 +14,7 @@ import com.qifun.statelessFuture.test.Async.{async, await, future}
 import org.junit.Test
 import com.qifun.statelessFuture.test.internal.AsyncId
 import ExecutionContext.Implicits.global
+import AutoStart._
 
 class TestMatchClass {
 

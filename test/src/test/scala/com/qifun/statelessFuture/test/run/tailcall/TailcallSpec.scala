@@ -11,6 +11,7 @@ import org.junit.Test
 import scala.concurrent.duration._
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
+import AutoStart._
 
 class TailcallSpec {
   @Test

@@ -13,7 +13,7 @@ import ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import com.qifun.statelessFuture.test.Async.{async, await, future}
 import org.junit.Test
-
+import AutoStart._
 
 class TestIfElse1Class {
 
