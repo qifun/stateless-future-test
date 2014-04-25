@@ -4,3 +4,6 @@
 [submodule "stateless-future-akka"]
 	path = stateless-future-akka
 	url = https://github.com/Atry/stateless-future-akka.git
+[submodule "stateless-future-util"]
+	path = stateless-future-util
+	url = https://github.com/Atry/stateless-future-util.git
