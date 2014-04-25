@@ -15,12 +15,12 @@ object AutoStart {
         p.completeWith(underlying).result
       }
     })
-    Awaitable.ToConcurrentFuture(p)
+    new Future.ToConcurrentFuture(p)
   }
 
   implicit def toConcurrentFuture[A](underlying: Future[A])(implicit intialExecutionContext: ExecutionContext): scala.concurrent.Future[A] = {
     underlying match {
-      case statefulFuture: Future.Stateful[A] => new Awaitable.ToConcurrentFuture(statefulFuture)
+      case statefulFuture: Future.Stateful[A] => new Future.ToConcurrentFuture(statefulFuture)
       case statelessFuture: Future.Stateless[A] => statelessFutureToConcurrentFuture(statelessFuture)
     }
   }
