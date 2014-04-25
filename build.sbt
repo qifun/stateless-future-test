@@ -6,7 +6,7 @@ val adapter = Project("adapter", file("adapter")).dependsOn(statelessFuture)
 
 val test = Project("test", file("test")).dependsOn(statelessFuture, adapter, statelessFutureAkka)
 
-val root = Project("root", file(".")).aggregate(test)
+val root = Project("root", file(".")).aggregate(test, statelessFuture, statelessFutureAkka, adapter)
 
 scalaVersion in ThisBuild := "2.10.4"
 
