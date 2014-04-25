@@ -9,7 +9,7 @@ object AutoStart {
   import scala.language.implicitConversions
 
   implicit def statelessFutureToConcurrentFuture[A](underlying: Future.Stateless[A])(implicit intialExecutionContext: ExecutionContext): scala.concurrent.Future[A] = {
-    val p = Promise[A]()
+    val p = Promise[A]
     intialExecutionContext.execute(new Runnable {
       override final def run(): Unit = {
         p.completeWith(underlying).result
