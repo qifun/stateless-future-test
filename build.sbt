@@ -9,3 +9,5 @@ val test = Project("test", file("test")).dependsOn(statelessFuture, adapter, sta
 val root = Project("root", file(".")).aggregate(test)
 
 scalaVersion in ThisBuild := "2.10.4"
+
+crossScalaVersions in ThisBuild := Seq("2.10.4", "2.11.0")
