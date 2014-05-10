@@ -69,13 +69,13 @@ class BecomeSpec {
     inbox.send(doubleReceiveActor, "world")
     inbox.receive(5.seconds) mustBe "message1=hello message2=world"
     inbox.send(doubleReceiveActor, "isSameSender")
-    inbox.send(doubleReceiveActor, ())
-    inbox.send(doubleReceiveActor, ())
+    inbox.send(doubleReceiveActor, "")
+    inbox.send(doubleReceiveActor, "")
     inbox.receive(5.seconds) mustBe true
     inbox.send(doubleReceiveActor, "isSameSender")
-    inbox.send(doubleReceiveActor, ())
+    inbox.send(doubleReceiveActor, "")
     val inbox2 = Inbox.create(system)
-    inbox2.send(doubleReceiveActor, ())
+    inbox2.send(doubleReceiveActor, "")
     inbox2.receive(5.seconds) mustBe false
     inbox.send(doubleReceiveActor, "become2")
     inbox.send(doubleReceiveActor, "17")
