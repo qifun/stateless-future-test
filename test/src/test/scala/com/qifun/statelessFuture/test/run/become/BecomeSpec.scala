@@ -31,29 +31,27 @@ class BecomeActor extends Actor with FutureFactory {
     case "isSameSender" => context.become(FutureFactory.receiveUntilReturn(isSameSender).get, false)
   }
 
-  private val isSameSender = Future {
+  private def isSameSender = Future[Unit] {
     nextMessage.await
     val sender1 = sender
     nextMessage.await
     val sender2 = sender
     sender ! (sender1 == sender2)
-
   }
 
-  private val become1 = Future {
+  private def become1 = Future[Unit] {
     val message1 = nextMessage.await
     val message2 = nextMessage.await
     sender ! raw"message1=$message1 message2=$message2"
   }
 
-  private val become2 = Future {
+  private def become2 = Future[Nothing] {
     while (true) {
       val message1 = nextMessage.await.asInstanceOf[String].toInt
       val message2 = nextMessage.await.asInstanceOf[String].toInt
       sender ! message1 + message2
     }
     throw new IllegalStateException("Unreachable code!")
-
   }
 }
 
