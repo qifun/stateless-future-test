@@ -4,7 +4,7 @@ val statelessFutureUtil = Project("stateless-future-util", file("stateless-futur
 
 val statelessFutureAkka = Project("stateless-future-akka", file("stateless-future-akka")).dependsOn(statelessFuture)
 
-val adapter = Project("adapter", file("adapter")).dependsOn(statelessFuture)
+val adapter = Project("adapter", file("adapter")).dependsOn(statelessFuture, statelessFutureUtil)
 
 val test = Project("test", file("test")).dependsOn(statelessFuture, adapter, statelessFutureAkka)
 
