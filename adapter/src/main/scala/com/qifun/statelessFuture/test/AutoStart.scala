@@ -1,6 +1,7 @@
 package com.qifun.statelessFuture
 package test
 
+import com.qifun.statelessFuture.util.Promise
 import scala.concurrent.ExecutionContext
 import scala.util.Success
 import scala.util.Failure
@@ -12,7 +13,7 @@ object AutoStart {
     val p = Promise[A]
     intialExecutionContext.execute(new Runnable {
       override final def run(): Unit = {
-        p.completeWith(underlying).result
+        p.completeWith(underlying)
       }
     })
     new Future.ToConcurrentFuture(p)
