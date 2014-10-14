@@ -1,9 +1,9 @@
 [submodule "stateless-future"]
 	path = stateless-future
-	url = https://github.com/qifun//stateless-future.git
+	url = https://github.com/qifun/stateless-future.git
 [submodule "stateless-future-akka"]
 	path = stateless-future-akka
-	url = https://github.com/qifun//stateless-future-akka.git
+	url = https://github.com/qifun/stateless-future-akka.git
 [submodule "stateless-future-util"]
 	path = stateless-future-util
-	url = https://github.com/qifun//stateless-future-util.git
+	url = https://github.com/qifun/stateless-future-util.git
