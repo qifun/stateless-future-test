@@ -104,7 +104,7 @@ class ExceptionsSpec {
   }
 
   @Test
-  def `catch an exception and then recover without a no finally block`() {
+  def `catch an exception and then recover without a finally block`() {
     var unreachableLog = 0
     val fut = Future {
       try {
