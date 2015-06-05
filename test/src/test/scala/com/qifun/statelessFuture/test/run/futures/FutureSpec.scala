@@ -533,6 +533,22 @@ class FutureSpec {
     Await.ready(f, defaultTimeout).value.get.toString mustBe expected.toString
   }
 
+  @Test def `should support tuple`(): Unit = {
+    val f0 = future {
+      val (left, right) = "foo" -> 3
+      left
+    }
+    Await.result(f0, Inf) mustBe "foo"
+  }
+
+  @Test def `should support await tuple`(): Unit = {
+    val f0 = future {
+      val (left, right) = future("foo" -> 3).await
+      left
+    }
+    Await.result(f0, Inf) mustBe "foo"
+  }
+
 }
 
 
